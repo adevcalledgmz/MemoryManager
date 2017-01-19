@@ -1,38 +1,41 @@
 #include "MemoryManager.h"
 
-int MemoryManager::attach(const DWORD& procId)
+namespace MemManager
 {
-	if (procId == 0)
+	int MemoryManager::attach(const DWORD& procId)
 	{
-		return -1;
+		if (procId == 0)
+		{
+			return -1;
+		}
+
+		m_processHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, procId);
+
+		if (m_processHandle == NULL)
+		{
+			return -1;
+		}
+
+		return 0;
 	}
 
-	m_processHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, procId);
-
-	if (m_processHandle == NULL)
+	int MemoryManager::attach(const std::string& windowName)
 	{
-		return -1;
-	}
+		m_processHWND = FindWindowA(0, windowName.c_str());
 
-	return 0;
-}
+		if (m_processHWND == NULL)
+		{
+			return -1;
+		}
 
-int MemoryManager::attach(const std::string& windowName)
-{
-	m_processHWND = FindWindowA(0, windowName.c_str());
-
-	if (m_processHWND == NULL)
-	{
-		return -1;
-	}
-
-	GetWindowThreadProcessId(m_processHWND, &m_)
+		GetWindowThreadProcessId(m_processHWND, &m_)
 
 
 	//Todo finish this function
-}
+	}
 
-void MemoryManager::detach()
-{
-	CloseHandle(m_processHandle);
-}
+	void MemoryManager::detach()
+	{
+		CloseHandle(m_processHandle);
+	}
+}	
