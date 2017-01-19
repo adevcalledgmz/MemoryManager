@@ -9,7 +9,6 @@ namespace MemManager
 	    MemoryManager();
 	    int attach(const DWORD& procId);
             int attach(const std::string& windowName);
-	    int attach(std::string processName);
 	    void detach();
 
 	private:
